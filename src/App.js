@@ -3,6 +3,7 @@ import "./App.css";
 import ListItems from "./ListItem";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { DragDropContext } from "react-beautiful-dnd";
 
 library.add(faTrash);
 
@@ -65,26 +66,32 @@ class App extends React.Component {
     });
   }
 
+  onDragEnd = (result) => {
+    // TODO
+  };
+
   render() {
     return (
-      <div className="App">
-        <header>
-          <form id="to-do-form" onSubmit={this.addItem}>
-            <input
-              type="text"
-              placeholder="Enter text"
-              value={this.state.currentItem.text}
-              onChange={this.handleInput}
-            ></input>
-            <button type="submit">Add</button>
-          </form>
-        </header>
-        <ListItems
-          items={this.state.items}
-          deleteItem={this.deleteItem}
-          setUpdate={this.setUpdate}
-        />
-      </div>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <div className="App">
+          <header>
+            <form id="to-do-form" onSubmit={this.addItem}>
+              <input
+                type="text"
+                placeholder="Enter text"
+                value={this.state.currentItem.text}
+                onChange={this.handleInput}
+              ></input>
+              <button type="submit">Add</button>
+            </form>
+          </header>
+          <ListItems
+            items={this.state.items}
+            deleteItem={this.deleteItem}
+            setUpdate={this.setUpdate}
+          />
+        </div>
+      </DragDropContext>
     );
   }
 }

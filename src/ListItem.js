@@ -2,9 +2,12 @@ import React from "react";
 import "./ListItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FlipMove from "react-flip-move";
+import { Droppable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 function ListItems(props) {
   const items = props.items;
+
   const listItems = items.map((item) => {
     return (
       <div className="list" key={item.key}>
@@ -30,12 +33,22 @@ function ListItems(props) {
       </div>
     );
   });
+
   return (
-    <div>
-      <FlipMove duration={300} easing="ease-in-out">
-        {listItems}
-      </FlipMove>
-    </div>
+    <Droppable droppableId={id}>
+      {(provided) => (
+        <div
+          className="todo-app"
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+        >
+          <FlipMove duration={300} easing="ease-in-out">
+            {listItems}
+          </FlipMove>
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 }
 
